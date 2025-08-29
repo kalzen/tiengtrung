@@ -143,7 +143,7 @@ export function FileManager({
   const [folders, setFolders] = useState<FolderItem[]>([])
   const [allFolders, setAllFolders] = useState<FolderItem[]>([])
   const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([])
-  const [currentPath, setCurrentPath] = useState('upload/userfiles')
+  const [currentPath, setCurrentPath] = useState('upload')
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')

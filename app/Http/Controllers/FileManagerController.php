@@ -10,7 +10,7 @@ class FileManagerController extends Controller
 {
     public function index(Request $request)
     {
-        $path = $request->input('path', 'upload/userfiles');
+        $path = $request->input('path', 'upload');
         $tree = $request->input('tree', false);
         
         if ($tree) {
