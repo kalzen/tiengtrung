@@ -20,9 +20,9 @@ const setCookie = (name: string, value: string, days = 365) => {
 };
 
 const applyTheme = (appearance: Appearance) => {
-    const isDark = appearance === 'dark' || (appearance === 'system' && prefersDark());
-
-    document.documentElement.classList.toggle('dark', isDark);
+    // Force light theme always
+    document.documentElement.classList.remove('dark');
+    document.documentElement.classList.add('light');
 };
 
 const mediaQuery = () => {
@@ -39,35 +39,27 @@ const handleSystemThemeChange = () => {
 };
 
 export function initializeTheme() {
-    const savedAppearance = (localStorage.getItem('appearance') as Appearance) || 'system';
-
-    applyTheme(savedAppearance);
-
-    // Add the event listener for system theme changes...
-    mediaQuery()?.addEventListener('change', handleSystemThemeChange);
+    // Always force light theme
+    applyTheme('light');
+    localStorage.setItem('appearance', 'light');
+    setCookie('appearance', 'light');
 }
 
 export function useAppearance() {
-    const [appearance, setAppearance] = useState<Appearance>('system');
+    const [appearance, setAppearance] = useState<Appearance>('light');
 
     const updateAppearance = useCallback((mode: Appearance) => {
-        setAppearance(mode);
-
-        // Store in localStorage for client-side persistence...
-        localStorage.setItem('appearance', mode);
-
-        // Store in cookie for SSR...
-        setCookie('appearance', mode);
-
-        applyTheme(mode);
+        // Always force light theme regardless of input
+        setAppearance('light');
+        localStorage.setItem('appearance', 'light');
+        setCookie('appearance', 'light');
+        applyTheme('light');
     }, []);
 
     useEffect(() => {
-        const savedAppearance = localStorage.getItem('appearance') as Appearance | null;
-        updateAppearance(savedAppearance || 'system');
-
-        return () => mediaQuery()?.removeEventListener('change', handleSystemThemeChange);
+        // Always set to light theme
+        updateAppearance('light');
     }, [updateAppearance]);
 
-    return { appearance, updateAppearance } as const;
+    return { appearance: 'light', updateAppearance } as const;
 }

@@ -298,7 +298,7 @@ export default function MainLayout({ children, menus = [], settings = {}, slides
                 <div className="bg-black py-4">
                     <div className="container mx-auto px-4">
                         <div className="text-center text-gray-400">
-                            <p>Copyright 2019 Designed by Kz Media</p>
+                            <p>Copyright 2025 Designed by <a href="https://kalzenmedia.com" target="_blank" rel="noopener noreferrer" className="text-[#27a8e3] hover:text-[#1f8bc7] transition-colors">Kalzen Media</a></p>
                         </div>
                     </div>
                 </div>
