@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Head, Link } from '@inertiajs/react';
+
+// Asset helper function
+const asset = (path: string): string => {
+    const meta = document.querySelector('meta[name="asset-base"]');
+    const base = meta?.getAttribute('content') || '/';
+    return `${base}${path}`;
+};
 import { 
     ChevronDown, 
     MapPin, 
@@ -170,9 +177,12 @@ export default function Home({ settings, menus, slides, branches, posts, testimo
                     {slides.length > 0 && (
                         <div className="relative h-full flex items-center justify-center">
                             <img 
-                                src={slides[currentSlide].image} 
+                                src={decodeURIComponent(slides[currentSlide].image.replace(/&#37;/g, '%'))} 
                                 alt={slides[currentSlide].title}
                                 className="max-w-full max-h-full object-contain transition-all duration-1000"
+                                onError={(e) => {
+                                    e.currentTarget.src = asset('placeholder.jpg');
+                                }}
                             />
                             
                             {/* Prev Button */}
@@ -269,9 +279,12 @@ export default function Home({ settings, menus, slides, branches, posts, testimo
                                     {/* Background Image */}
                                     <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                                         <img
-                                            src={branch.images}
+                                            src={decodeURIComponent(branch.images.replace(/&#37;/g, '%'))}
                                             alt={branch.name}
                                             className="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-105"
+                                            onError={(e) => {
+                                                e.currentTarget.src = asset('placeholder.jpg');
+                                            }}
                                         />
                                         {/* Decorative gradient overlay */}
                                         <div className="absolute inset-0 pointer-events-none">
@@ -340,9 +353,12 @@ export default function Home({ settings, menus, slides, branches, posts, testimo
                                 <Card key={branch.id} className="overflow-hidden hover-lift animate-fade-in-up" style={{ animationDelay: `${index * 200}ms` }}>
                                     <div className="h-48 overflow-hidden">
                                         <img 
-                                            src={branch.images} 
+                                            src={decodeURIComponent(branch.images.replace(/&#37;/g, '%'))} 
                                             alt={branch.name}
                                             className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                                            onError={(e) => {
+                                                e.currentTarget.src = asset('placeholder.jpg');
+                                            }}
                                         />
                                     </div>
                                     <CardContent className="p-8">
@@ -426,9 +442,12 @@ export default function Home({ settings, menus, slides, branches, posts, testimo
                                     <div className="h-80 overflow-hidden">
                                         <Link href={route('posts.show', posts[0].slug)}>
                                             <img 
-                                                src={posts[0].thumbnail} 
+                                                src={decodeURIComponent(posts[0].thumbnail.replace(/&#37;/g, '%'))} 
                                                 alt={posts[0].title}
                                                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-110 cursor-pointer"
+                                                onError={(e) => {
+                                                    e.currentTarget.src = asset('placeholder.jpg');
+                                                }}
                                             />
                                         </Link>
                                     </div>
@@ -466,11 +485,14 @@ export default function Home({ settings, menus, slides, branches, posts, testimo
                                         {/* Image - Left side */}
                                         <div className="w-32 h-24 flex-shrink-0 overflow-hidden">
                                             <Link href={route('posts.show', post.slug)}>
-                                                <img 
-                                                    src={post.thumbnail} 
-                                                    alt={post.title}
-                                                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110 cursor-pointer"
-                                                />
+                                                                                            <img 
+                                                src={decodeURIComponent(post.thumbnail.replace(/&#37;/g, '%'))} 
+                                                alt={post.title}
+                                                className="w-full h-full object-cover transition-transform duration-500 hover:scale-110 cursor-pointer"
+                                                onError={(e) => {
+                                                    e.currentTarget.src = asset('placeholder.jpg');
+                                                }}
+                                            />
                                             </Link>
                                         </div>
                                         
@@ -516,9 +538,12 @@ export default function Home({ settings, menus, slides, branches, posts, testimo
                                 <Card key={testimonial.id} className="p-8 h-full animate-fade-in-up" style={{ animationDelay: `${index * 200}ms` }}>
                                     <div className="flex items-center mb-6">
                                         <img 
-                                            src={testimonial.image} 
+                                            src={decodeURIComponent(testimonial.image.replace(/&#37;/g, '%'))} 
                                             alt={testimonial.name}
                                             className="w-16 h-16 rounded-full mr-4 object-cover"
+                                            onError={(e) => {
+                                                e.currentTarget.src = asset('placeholder.jpg');
+                                            }}
                                         />
                                         <div>
                                             <h4 className="font-bold text-lg">{testimonial.name}</h4>
